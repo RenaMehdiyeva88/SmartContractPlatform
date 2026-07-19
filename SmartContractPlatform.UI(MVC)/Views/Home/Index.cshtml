@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Rəqəmsal müqavilə platforması";
+}
+
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="eyebrow">Smart Contract & E-Signature SaaS</div>
+        <h1>Azərbaycanda müqavilələri rəqəmsal yaradın, paylaşın və elektron imzalayın.</h1>
+        <p>
+            Kirayə, xidmət, satış və borc müqavilələri üçün hazır şablonlar, qarşı tərəfə dəvət,
+            elektron imza statusu, audit izləmə və PDF ixracı bir paneldə.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-primary-gradient" asp-controller="Templates" asp-action="Index">Şablon seç və başla</a>
+            <a class="btn btn-glass" asp-controller="Contracts" asp-action="Index">Müqavilələrim</a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <div class="status-pill">Pending</div>
+        <h3>Kirayə müqaviləsi</h3>
+        <p>2 tərəfli elektron imza prosesi</p>
+        <div class="signature-flow">
+            <span class="flow-step done">Tərəf 1 imzaladı</span>
+            <span class="flow-line"></span>
+            <span class="flow-step active">Tərəf 2 gözləyir</span>
+        </div>
+        <div class="hash-box">HASH: AZ-7F4C-2026</div>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <strong>4</strong>
+        <span>Hazır müqavilə şablonu</span>
+    </div>
+    <div class="stat-card">
+        <strong>İmza</strong>
+        <span>Kodsuz elektron təsdiqləmə ilə imza</span>
+    </div>
+    <div class="stat-card">
+        <strong>PDF</strong>
+        <span>Timestamp və unique hash ilə export</span>
+    </div>
+    <div class="stat-card">
+        <strong>Audit</strong>
+        <span>Baxış, imza və IP izləmə</span>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-heading">
+        <span class="eyebrow">MVP Scope</span>
+        <h2>Task-da tələb olunan əsas flow-lar UI-da hazırdır</h2>
+    </div>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <span class="feature-icon">01</span>
+            <h3>Register / Login</h3>
+            <p>Fiziki şəxs üçün FIN, hüquqi şəxs üçün VÖEN məlumatları ilə hesab yaradılması.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">02</span>
+            <h3>Template seçimi</h3>
+            <p>Kirayə, xidmət, satış və borc müqaviləsi şablonlarına baxış və detallı schema.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">03</span>
+            <h3>Müqavilə yaratma</h3>
+            <p>Qarşı tərəfin FIN/VÖEN-i, rolları və dəvət məlumatları ilə müqavilə yaradılması.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">04</span>
+            <h3>Elektron imza və PDF</h3>
+            <p>Status izləmə, bir kliklə imzalama, rədd etmə və imzalı PDF faylının endirilməsi.</p>
+        </div>
+    </div>
+</section>

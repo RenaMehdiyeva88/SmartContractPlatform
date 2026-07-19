@@ -1,0 +1,50 @@
+﻿@model IEnumerable<TemplateDto>
+@{
+    ViewData["Title"] = "Müqavilə şablonları";
+}
+
+<section class="page-header">
+    <div>
+        <span class="eyebrow">Templates</span>
+        <h1>Müqavilə şablonları</h1>
+        <p>Azərbaycanda ən çox istifadə olunan müqavilə növlərini seçin və dinamik sahələrlə müqavilə yaradın.</p>
+    </div>
+    <a class="btn btn-primary-gradient" asp-controller="Contracts" asp-action="Create">Yeni müqavilə yarat</a>
+</section>
+
+<section class="template-grid">
+    @foreach (var template in Model)
+    {
+        var categoryText = template.Category switch
+        {
+            TemplateCategory.Rental => "Kirayə",
+            TemplateCategory.Service => "Xidmət",
+            TemplateCategory.Sale => "Satış",
+            TemplateCategory.Debt => "Borc",
+            _ => template.Category.ToString()
+        };
+
+        <article class="template-card">
+            <div class="template-card-top">
+                <span class="category-badge">@categoryText</span>
+                <span class="status-badge @(template.IsActive ? "status-success" : "status-muted")">
+                    @(template.IsActive ? "Aktiv" : "Deaktiv")
+                </span>
+            </div>
+            <h2>@template.Name</h2>
+            <p>JSON schema ilə saxlanılan dinamik field-lər: tərəf məlumatları, müqavilə detalları və tarixlər.</p>
+            <div class="card-actions">
+                <a class="btn btn-outline-danger" asp-action="Details" asp-route-id="@template.Id">Detallara bax</a>
+                <a class="btn btn-primary-gradient" asp-controller="Contracts" asp-action="Create" asp-route-templateId="@template.Id">Bu şablonla yarat</a>
+            </div>
+        </article>
+    }
+</section>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <h2>Şablon tapılmadı</h2>
+        <p>Admin paneldə kirayə, xidmət, satış və borc müqaviləsi şablonları əlavə edilməlidir.</p>
+    </div>
+}

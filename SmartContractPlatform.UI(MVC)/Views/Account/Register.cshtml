@@ -1,0 +1,103 @@
+﻿@model SmartContractPlatform.MVC.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Qeydiyyat";
+}
+
+<section class="auth-shell wide">
+    <div class="auth-panel">
+        <span class="eyebrow">Yeni hesab</span>
+        <h1>Platformaya qoşulun</h1>
+        <p>Fiziki və ya hüquqi şəxs kimi qeydiyyatdan keçib müqavilələri tam rəqəmsal idarə edin.</p>
+
+        <form asp-action="Register" method="post" class="form-card">
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+
+            <div class="form-grid two">
+                <div class="form-group">
+                    <label asp-for="UserType"></label>
+                    <select asp-for="UserType" asp-items="Html.GetEnumSelectList<UserType>()" class="form-select"></select>
+                    <span asp-validation-for="UserType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone"></label>
+                    <input asp-for="Phone" class="form-control" placeholder="+994501234567" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-grid two">
+                <div class="form-group">
+                    <label asp-for="FinCode"></label>
+                    <input asp-for="FinCode" class="form-control" placeholder="Fiziki şəxs üçün" />
+                    <span asp-validation-for="FinCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Voen"></label>
+                    <input asp-for="Voen" class="form-control" placeholder="Hüquqi şəxs üçün" />
+                    <span asp-validation-for="Voen" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-grid two">
+                <div class="form-group">
+                    <label asp-for="Name">Ad / Şirkət adı</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname"></label>
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-grid two">
+                <div class="form-group">
+                    <label asp-for="FatherName"></label>
+                    <input asp-for="FatherName" class="form-control" />
+                    <span asp-validation-for="FatherName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanyName"></label>
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-grid two">
+                <div class="form-group">
+                    <label asp-for="RepresentativeName"></label>
+                    <input asp-for="RepresentativeName" class="form-control" />
+                    <span asp-validation-for="RepresentativeName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Minimum təhlükəsiz şifrə" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary-gradient w-100">Qeydiyyatdan keç</button>
+        </form>
+
+        <p class="auth-switch">Artıq hesabınız var? <a asp-action="Login">Daxil olun</a></p>
+    </div>
+    <div class="auth-aside">
+        <h2>İki istifadəçi tipi</h2>
+        <ul class="check-list">
+            <li>Fiziki şəxs: FIN, ad, soyad, ata adı</li>
+            <li>Hüquqi şəxs: VÖEN, şirkət və nümayəndə məlumatları</li>
+            <li>Email və telefon dəvət flow-ları üçün saxlanılır</li>
+        </ul>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

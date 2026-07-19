@@ -1,0 +1,37 @@
+@model SmartContractPlatform.BLL.DTOs.TemplateDto
+@{
+    ViewData["Title"] = "Şablonu sil";
+}
+
+<section class="page-header compact danger-header">
+    <div>
+        <span class="eyebrow">Admin delete</span>
+        <h1>Şablonu silmək istəyirsiniz?</h1>
+        <p>Bu əməliyyat şablonu soft-delete edir. Mövcud müqavilələrin məlumatları saxlanılır.</p>
+    </div>
+    <a class="btn btn-glass-dark" asp-action="Index">Geri</a>
+</section>
+
+<section class="details-grid">
+    <div class="info-card">
+        <h2>@Model.Name</h2>
+        <dl class="details-list">
+            <dt>Kateqoriya</dt>
+            <dd>@Model.Category</dd>
+            <dt>Status</dt>
+            <dd>@(Model.IsActive ? "Aktiv" : "Deaktiv")</dd>
+            <dt>ID</dt>
+            <dd>@Model.Id</dd>
+        </dl>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="mt-4 hero-actions">
+            <button type="submit" class="btn btn-primary-gradient">Bəli, sil</button>
+            <a class="btn btn-glass-dark" asp-action="Index">Ləğv et</a>
+        </form>
+    </div>
+
+    <div class="schema-card">
+        <span class="eyebrow">Schema preview</span>
+        <h2>JSON</h2>
+        <pre><code>@Model.SchemaJson</code></pre>
+    </div>
+</section>

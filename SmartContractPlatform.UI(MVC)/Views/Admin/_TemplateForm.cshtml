@@ -1,0 +1,47 @@
+@model SmartContractPlatform.MVC.Models.TemplateFormViewModel
+
+<section class="form-layout">
+    <form method="post" class="form-card large admin-form">
+        <input asp-for="Id" type="hidden" />
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+
+        <div class="form-grid two">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Məs: Kirayə müqaviləsi" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" asp-items="Html.GetEnumSelectList<TemplateCategory>()" class="form-select"></select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-check form-switch admin-switch">
+            <input asp-for="IsActive" class="form-check-input" role="switch" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SchemaJson"></label>
+            <textarea asp-for="SchemaJson" class="form-control code-input schema-editor" rows="18"></textarea>
+            <span asp-validation-for="SchemaJson" class="text-danger"></span>
+        </div>
+
+        <div class="hero-actions">
+            <button type="submit" class="btn btn-primary-gradient">Yadda saxla</button>
+            <a class="btn btn-glass-dark" asp-action="Index">Ləğv et</a>
+        </div>
+    </form>
+
+    <aside class="info-card accent-card">
+        <h2>Advanced schema tips</h2>
+        <ul class="check-list dark">
+            <li><code>properties</code> müqavilə yaratma zamanı doldurulacaq field-ləri bildirir.</li>
+            <li><code>required</code> boş buraxıla bilməyən field-lər üçündür.</li>
+            <li><code>format: date</code> tarix sahələri üçün istifadə edilə bilər.</li>
+            <li>Invalid JSON saxlanılmayacaq və error göstəriləcək.</li>
+        </ul>
+    </aside>
+</section>

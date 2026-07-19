@@ -1,0 +1,56 @@
+﻿@model System.Collections.Generic.IEnumerable<SmartContractPlatform.BLL.DTOs.ContractDto>
+@{
+    ViewData["Title"] = "Müqavilələrim";
+}
+
+<section class="page-header">
+    <div>
+        <span class="eyebrow">Contracts</span>
+        <h1>Müqavilələrim</h1>
+        <p>Draft, Pending, Partially Signed, Fully Signed və Rejected statuslarını buradan izləyin.</p>
+    </div>
+    <a class="btn btn-primary-gradient" asp-action="Create">Yeni müqavilə</a>
+</section>
+
+<section class="table-card">
+    <div class="table-responsive">
+        <table class="table align-middle app-table">
+            <thead>
+                <tr>
+                    <th>Şablon</th>
+                    <th>Status</th>
+                    <th>Tərəflər</th>
+                    <th>Yaradılma tarixi</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contract in Model)
+                {
+                    var signedCount = contract.Parties.Count(p => p.Signed);
+                    <tr>
+                        <td>
+                            <strong>@(contract.TemplateName ?? "Şablon")</strong>
+                            <small class="d-block text-muted">@contract.Id</small>
+                        </td>
+                        <td><span class="status-badge status-@contract.Status.ToString().ToLowerInvariant()">@contract.Status</span></td>
+                        <td>@signedCount / @contract.Parties.Count imzalanıb</td>
+                        <td>@contract.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                        <td class="text-end">
+                            <a class="btn btn-outline-danger btn-sm" asp-action="Details" asp-route-id="@contract.Id">Aç</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <h2>Hələ müqaviləniz yoxdur</h2>
+        <p>Hazır şablon seçərək ilk müqavilənizi yaradın və qarşı tərəfə paylaşın.</p>
+        <a class="btn btn-primary-gradient" asp-controller="Templates" asp-action="Index">Şablonlara bax</a>
+    </div>
+}

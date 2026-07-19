@@ -1,0 +1,19 @@
+@model SmartContractPlatform.MVC.Models.TemplateFormViewModel
+@{
+    ViewData["Title"] = "Şablonu yenilə";
+}
+
+<section class="page-header compact">
+    <div>
+        <span class="eyebrow">Admin edit</span>
+        <h1>Şablonu yenilə</h1>
+        <p>Ad, kateqoriya, aktivlik və JSON schema məlumatlarını idarə edin.</p>
+    </div>
+    <a class="btn btn-glass-dark" asp-action="Index">Admin panelə qayıt</a>
+</section>
+
+<partial name="_TemplateForm" model="Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

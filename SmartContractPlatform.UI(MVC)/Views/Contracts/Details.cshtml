@@ -1,0 +1,130 @@
+﻿@model SmartContractPlatform.BLL.DTOs.ContractDto
+@{
+    ViewData["Title"] = "Müqavilə detalları";
+    var hasDocument = ViewBag.HasDocument is bool value && value;
+    var currentUserId = ViewBag.CurrentUserId is Guid userId ? userId : Guid.Empty;
+    var currentParty = Model.Parties.FirstOrDefault(p => p.UserId == currentUserId);
+    var canSign = currentParty is not null && !currentParty.Signed && Model.Status is not ContractStatus.FullySigned and not ContractStatus.Rejected;
+}
+
+<section class="page-header compact">
+    <div>
+        <span class="eyebrow">Contract detail</span>
+        <h1>@(Model.TemplateName ?? "Müqavilə")</h1>
+        <p>İmza statusu, tərəflər, müqavilə məlumatları və PDF export əməliyyatları.</p>
+    </div>
+    <div class="header-actions">
+        <a class="btn btn-glass-dark" asp-action="Index">Geri</a>
+        @if (hasDocument)
+        {
+            <a class="btn btn-primary-gradient" asp-action="DownloadPdf" asp-route-id="@Model.Id">PDF endir</a>
+        }
+    </div>
+</section>
+
+@if (TempData["Message"] is string message)
+{
+    <div class="alert app-alert">@message</div>
+}
+
+<section class="details-grid">
+    <div class="info-card">
+        <div class="contract-summary-head">
+            <div>
+                <span class="eyebrow">Status</span>
+                <h2><span class="status-badge status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status</span></h2>
+            </div>
+            <span class="date-chip">@Model.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</span>
+        </div>
+        <dl class="details-list">
+            <dt>Müqavilə ID</dt>
+            <dd>@Model.Id</dd>
+            <dt>Template ID</dt>
+            <dd>@Model.TemplateId</dd>
+            <dt>PDF</dt>
+            <dd>@(hasDocument ? "Generasiya olunub" : "Hələ generasiya olunmayıb")</dd>
+        </dl>
+    </div>
+
+    <div class="info-card accent-card">
+        <h2>İmzalama prosesi</h2>
+        <div class="signature-flow vertical">
+            @foreach (var party in Model.Parties)
+            {
+                <span class="flow-step @(party.Signed ? "done" : "active")">
+                    @party.FullNameOrCompany — @party.Role @(party.Signed ? $"• {party.SignedAt?.ToLocalTime():dd.MM.yyyy HH:mm}" : "• imza gözləyir")
+                </span>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="table-card">
+    <div class="section-heading inline">
+        <div>
+            <span class="eyebrow">Parties</span>
+            <h2>Müqavilə tərəfləri</h2>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle app-table">
+            <thead>
+                <tr>
+                    <th>Ad / Şirkət</th>
+                    <th>FIN/VÖEN</th>
+                    <th>Rol</th>
+                    <th>İmza</th>
+                    <th>Tarix</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var party in Model.Parties)
+                {
+                    <tr>
+                        <td>@party.FullNameOrCompany</td>
+                        <td>@party.IdentificationNumber</td>
+                        <td>@party.Role</td>
+                        <td><span class="status-badge @(party.Signed ? "status-success" : "status-pending")">@(party.Signed ? "İmzalanıb" : "Gözləyir")</span></td>
+                        <td>@(party.SignedAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "—")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="details-grid">
+    <div class="schema-card">
+        <span class="eyebrow">Contract data</span>
+        <h2>Müqavilə detalları JSON</h2>
+        <pre><code>@Model.DataJson</code></pre>
+    </div>
+
+    <div class="info-card action-card">
+        <h2>Əməliyyatlar</h2>
+        @if (canSign)
+        {
+            <form asp-action="Sign" method="post" class="mb-3">
+                <input type="hidden" name="contractId" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary-gradient w-100">İmzala</button>
+            </form>
+        }
+        else
+        {
+            <p class="muted-text">Bu istifadəçi üçün aktiv imza əməliyyatı yoxdur və ya müqavilə artıq yekunlaşıb.</p>
+        }
+
+        @if (Model.Status != ContractStatus.Rejected)
+        {
+            <form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="mt-3">
+                <label for="reason">Rədd səbəbi</label>
+                <input id="reason" name="reason" class="form-control" placeholder="Səbəb daxil edin" />
+                <button type="submit" class="btn btn-glass-dark w-100 mt-2">Rədd et</button>
+            </form>
+        }
+
+        <form asp-action="GeneratePdf" asp-route-id="@Model.Id" method="post" class="mt-3">
+            <button type="submit" class="btn btn-primary-gradient w-100">PDF generasiya et</button>
+        </form>
+    </div>
+</section>

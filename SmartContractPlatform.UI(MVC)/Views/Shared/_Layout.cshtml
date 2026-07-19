@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SmartSign Azerbaijan</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SmartContractPlatform.UI_MVC_.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg app-navbar">
+            <div class="container">
+                <a class="navbar-brand app-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark">S</span>
+                    <span>SmartSign AZ</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav align-items-lg-center gap-lg-2">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Ana səhifə</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Templates" asp-action="Index">Şablonlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Contracts" asp-action="Index">Müqavilələr</a>
+                            </li>
+                        }
+                        @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link admin-link" asp-area="" asp-controller="Admin" asp-action="Index">Admin panel</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="navbar-actions">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <span class="user-chip">@User.Identity.Name</span>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-light btn-sm">Çıxış</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Login">Giriş</a>
+                            <a class="btn btn-light btn-sm text-danger fw-semibold" asp-controller="Account" asp-action="Register">Qeydiyyat</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="page-shell">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <div class="container">
+            <span>&copy; 2026 SmartSign AZ</span>
+            <span>Rəqəmsal müqavilə, elektron imza və PDF ixrac platforması</span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿@model SmartContractPlatform.MVC.Models.CreateContractViewModel
+@{
+    ViewData["Title"] = "Müqavilə yarat";
+    var templates = ViewBag.Templates as IEnumerable<TemplateDto> ?? Enumerable.Empty<TemplateDto>();
+}
+
+<section class="page-header compact">
+    <div>
+        <span class="eyebrow">Create contract</span>
+        <h1>Yeni müqavilə yarat</h1>
+        <p>Template seçin, qarşı tərəfi FIN/VÖEN ilə daxil edin və müqavilə məlumatlarını JSON formatında yazın.</p>
+    </div>
+    <a class="btn btn-glass-dark" asp-controller="Templates" asp-action="Index">Şablonlara qayıt</a>
+</section>
+
+<section class="form-layout">
+    <form asp-action="Create" method="post" class="form-card large">
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+
+        <div class="form-group">
+            <label asp-for="TemplateId"></label>
+            <select asp-for="TemplateId" class="form-select">
+                <option value="">Şablon seçin</option>
+                @foreach (var template in templates)
+                {
+                    <option value="@template.Id">@template.Name (@template.Category)</option>
+                }
+            </select>
+            <span asp-validation-for="TemplateId" class="text-danger"></span>
+        </div>
+
+        <div class="form-grid two">
+            <div class="form-group">
+                <label asp-for="CreatorRole"></label>
+                <select asp-for="CreatorRole" asp-items="Html.GetEnumSelectList<PartyRole>()" class="form-select"></select>
+                <span asp-validation-for="CreatorRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherPartyRole"></label>
+                <select asp-for="OtherPartyRole" asp-items="Html.GetEnumSelectList<PartyRole>()" class="form-select"></select>
+                <span asp-validation-for="OtherPartyRole" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="OtherPartyIdentificationNumber"></label>
+            <input asp-for="OtherPartyIdentificationNumber" class="form-control" placeholder="FIN və ya VÖEN" />
+            <span asp-validation-for="OtherPartyIdentificationNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-grid three">
+            <div class="form-group">
+                <label asp-for="OtherPartyFullName"></label>
+                <input asp-for="OtherPartyFullName" class="form-control" placeholder="Ad, soyad / şirkət" />
+                <span asp-validation-for="OtherPartyFullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherPartyContactEmail"></label>
+                <input asp-for="OtherPartyContactEmail" class="form-control" placeholder="email@example.com" />
+                <span asp-validation-for="OtherPartyContactEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherPartyContactPhone"></label>
+                <input asp-for="OtherPartyContactPhone" class="form-control" placeholder="+994..." />
+                <span asp-validation-for="OtherPartyContactPhone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DataJson"></label>
+            <textarea asp-for="DataJson" class="form-control code-input" rows="10" placeholder='{"propertyAddress":"Bakı","monthlyRent":800}'></textarea>
+            <span asp-validation-for="DataJson" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary-gradient">Müqaviləni yarat və paylaş</button>
+    </form>
+
+    <aside class="info-card accent-card">
+        <h2>Paylaşım necə işləyir?</h2>
+        <ul class="check-list dark">
+            <li>Qarşı tərəf sistemdə varsa müqavilə avtomatik görünür.</li>
+            <li>Yoxdursa email/telefon məlumatı dəvət üçün saxlanılır.</li>
+            <li>İmza prosesi Pending statusundan başlayır.</li>
+            <li>Hər baxış və imza audit trail-ə yazılır.</li>
+        </ul>
+    </aside>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

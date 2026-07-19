@@ -1,0 +1,58 @@
+﻿@model TemplateDto
+@{
+    ViewData["Title"] = Model.Name;
+
+    var categoryText = Model.Category switch
+    {
+        TemplateCategory.Rental => "Kirayə müqaviləsi",
+        TemplateCategory.Service => "Xidmət müqaviləsi",
+        TemplateCategory.Sale => "Satış müqaviləsi",
+        TemplateCategory.Debt => "Borc müqaviləsi",
+        _ => Model.Category.ToString()
+    };
+}
+
+<section class="page-header compact">
+    <div>
+        <span class="eyebrow">Template detail</span>
+        <h1>@Model.Name</h1>
+        <p>@categoryText üçün dinamik field schema-sı və müqavilə yaratma girişi.</p>
+    </div>
+    <div class="header-actions">
+        <a class="btn btn-glass-dark" asp-action="Index">Geri</a>
+        <a class="btn btn-primary-gradient" asp-controller="Contracts" asp-action="Create" asp-route-templateId="@Model.Id">Müqavilə yarat</a>
+    </div>
+</section>
+
+<section class="details-grid">
+    <div class="info-card">
+        <h2>Şablon məlumatları</h2>
+        <dl class="details-list">
+            <dt>Kateqoriya</dt>
+            <dd>@categoryText</dd>
+            <dt>Status</dt>
+            <dd><span class="status-badge @(Model.IsActive ? "status-success" : "status-muted")">@(Model.IsActive ? "Aktiv" : "Deaktiv")</span></dd>
+            <dt>Schema tipi</dt>
+            <dd>JSON Schema</dd>
+        </dl>
+    </div>
+    <div class="info-card accent-card">
+        <h2>Flow</h2>
+        <ol class="timeline-list">
+            <li>Template seçilir</li>
+            <li>Qarşı tərəfin FIN/VÖEN-i və rollar daxil edilir</li>
+            <li>Müqavilə Pending statusunda paylaşılır</li>
+            <li>Elektron imza tamamlananda PDF export edilir</li>
+        </ol>
+    </div>
+</section>
+
+<section class="schema-card">
+    <div class="section-heading inline">
+        <div>
+            <span class="eyebrow">Dynamic fields</span>
+            <h2>Schema JSON</h2>
+        </div>
+    </div>
+    <pre><code>@Model.SchemaJson</code></pre>
+</section>

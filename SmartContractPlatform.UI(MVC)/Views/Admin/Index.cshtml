@@ -1,0 +1,81 @@
+@model System.Collections.Generic.IEnumerable<SmartContractPlatform.BLL.DTOs.TemplateDto>
+@{
+    ViewData["Title"] = "Admin panel";
+}
+
+<section class="page-header">
+    <div>
+        <span class="eyebrow">Admin</span>
+        <h1>Template idarəetməsi</h1>
+        <p>Role-based admin panel: müqavilə şablonlarını yarat, yenilə, aktiv/deaktiv et və JSON schema-ları idarə et.</p>
+    </div>
+    <a class="btn btn-primary-gradient" asp-action="Create">Yeni şablon</a>
+</section>
+
+@if (TempData["Message"] is string message)
+{
+    <div class="alert app-alert">@message</div>
+}
+
+<section class="admin-metrics">
+    <div class="stat-card">
+        <strong>@Model.Count()</strong>
+        <span>Ümumi şablon</span>
+    </div>
+    <div class="stat-card">
+        <strong>@Model.Count(t => t.IsActive)</strong>
+        <span>Aktiv şablon</span>
+    </div>
+    <div class="stat-card">
+        <strong>@Model.Count(t => !t.IsActive)</strong>
+        <span>Deaktiv şablon</span>
+    </div>
+</section>
+
+<section class="table-card">
+    <div class="table-responsive">
+        <table class="table align-middle app-table">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Kateqoriya</th>
+                    <th>Status</th>
+                    <th>Schema</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var template in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@template.Name</strong>
+                            <small class="d-block text-muted">@template.Id</small>
+                        </td>
+                        <td><span class="category-badge">@template.Category</span></td>
+                        <td>
+                            <span class="status-badge @(template.IsActive ? "status-success" : "status-muted")">
+                                @(template.IsActive ? "Aktiv" : "Deaktiv")
+                            </span>
+                        </td>
+                        <td><code>@template.SchemaJson.Length simvol</code></td>
+                        <td class="text-end admin-actions">
+                            <a class="btn btn-outline-danger btn-sm" asp-controller="Templates" asp-action="Details" asp-route-id="@template.Id">Preview</a>
+                            <a class="btn btn-glass-dark btn-sm" asp-action="Edit" asp-route-id="@template.Id">Edit</a>
+                            <a class="btn btn-outline-secondary btn-sm" asp-action="Delete" asp-route-id="@template.Id">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <h2>Şablon yoxdur</h2>
+        <p>MVP üçün ən azı kirayə, xidmət, satış və borc şablonları yaradılmalıdır.</p>
+        <a class="btn btn-primary-gradient" asp-action="Create">İlk şablonu yarat</a>
+    </div>
+}

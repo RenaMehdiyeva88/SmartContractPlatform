@@ -1,0 +1,44 @@
+﻿@model SmartContractPlatform.MVC.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+<section class="auth-shell">
+    <div class="auth-panel">
+        <span class="eyebrow">Təhlükəsiz giriş</span>
+        <h1>Hesabınıza daxil olun</h1>
+        <p>Şablon seçmək, müqavilə yaratmaq və imza prosesini izləmək üçün daxil olun.</p>
+
+        <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post" class="form-card">
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Şifrəniz" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary-gradient w-100">Daxil ol</button>
+        </form>
+
+        <p class="auth-switch">Hesabınız yoxdur? <a asp-action="Register">Qeydiyyatdan keçin</a></p>
+    </div>
+    <div class="auth-aside">
+        <h2>Rəqəmsal müqavilə dövriyyəsi</h2>
+        <ul class="check-list">
+            <li>Cookie session ilə MVC giriş flow-u</li>
+            <li>Role-based istifadəçi və admin ssenariləri</li>
+            <li>Elektron imza üçün təhlükəsiz hesab identifikasiyası</li>
+        </ul>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
