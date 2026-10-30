@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SmartContractPlatform.BLL/SmartContractPlatform.BLL.csproj" />
+  <Project Path="SmartContractPlatform.DAL/SmartContractPlatform.DAL.csproj" />
+  <Project Path="SmartContractPlatform.UI(MVC)/SmartContractPlatform.UI(MVC).csproj" />
+</Solution>
