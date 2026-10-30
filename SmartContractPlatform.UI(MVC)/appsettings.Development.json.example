@@ -1,0 +1,29 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SmartContractPlatformDB;Trusted_Connection=True;TrustServerCertificate=True"
+  },
+  "Encryption": {
+    "Key": "REPLACE_WITH_BASE64_32_BYTE_KEY"
+  },
+  "Jwt": {
+    "Secret": "REPLACE_WITH_A_LONG_RANDOM_SECRET_AT_LEAST_32_CHARS",
+    "Issuer": "SmartContractPlatform",
+    "Audience": "SmartContractPlatform",
+    "LifetimeHours": 8
+  },
+  "Smtp": {
+    "Host": "",
+    "Port": 587,
+    "Username": "",
+    "Password": "",
+    "UseSsl": true,
+    "FromEmail": "noreply@smartcontractplatform.local",
+    "MockEnabled": true
+  }
+}

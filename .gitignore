@@ -1,0 +1,15 @@
+## Build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+TestResults/
+*.log
+
+## Local config with secrets (use the .example file as a template)
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+.env
